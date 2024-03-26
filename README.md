@@ -1,7 +1,7 @@
-# waibibabo
+# 歪比巴卜加密算法
 歪比巴卜加密算法
 
-在线加密解密：<https://passkou.github.io/waibibabo/>
+在线加密解密：<https://geoi6sam1.github.io/WaiBiBaBo>
 
 <h1 style="color: #c33; text-align: center">规格说明</h1>
 <p>所有字符使用 <b>UTF-8</b> 编码。</p>
