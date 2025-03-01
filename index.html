@@ -3,154 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="x-ua-compatible" content="IE=edge">
-  <meta name="renderer" content="webkit">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>歪比巴卜加密算法</title>
-  <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- 引入字体和图标库 -->
   <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.8.2/css/all.min.css" rel="stylesheet">
-  <link href="https://cdn.bootcdn.net/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css" rel="stylesheet">
-  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="waibibabo.js"></script>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0px;
-      padding: 0px;
-    }
-    #app {
-      position: relative;
-    }
-    #app > .page {
-      min-height: 100vh;
-    }
-    .translate {
-      background-color: #333;
-      padding: 0 100px;
-      position: relative;
-    }
-    .translate .content {
-      display: flex;
-      justify-content: space-between;
-      align-content: center;
-    }
-    .translate .content > div {
-      color: white;
-      justify-content: center;
-      display: flex;
-      flex-direction: column;
-    }
-    .control button {
-      margin: 5px;
-    }
-    .input {
-      width: 40%;
-    }
-    header {
-      display: flex;
-      justify-content: space-between;
-      padding: 30px 0;
-      width: 100%;
-      color: white;
-      font-size: 30px;
-    }
-    header a {
-      color: white;
-    }
-    .copyright {
-      position: absolute;
-      width: 100%;
-      bottom: 15px;
-      text-align: center;
-    }
-    .copyright a {
-      color: #1890ff;
-    }
-    .spec {
-      padding: 50px 50px;
-    }
-    .spec article {
-      margin: auto;
-      max-width: 700px;
-    }
-    @media screen and (max-width: 768px) {
-      .title {
-        font-size: 26px;
-      }
-      .copyright {
-        font-size: 12px;
-      }
-      .translate {
-        padding: 0 20px 30px 20px;
-      }
-      .translate .content {
-        flex-direction: column;
-      }
-      .input {
-        width: 100%;
-      }
-      .spec {
-        padding: 50px 20px;
-      }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css"> <!-- 外部CSS文件 -->
 </head>
 <body>
-<div id="app">
-  <div class="page translate">
-    <header>
-      <div class="title">
-        <span><strong>歪比巴卜加密算法</strong></span>
+
+<!-- 主要的加密功能容器 -->
+<div class="waibi-container">
+  <header class="header">
+    <h1>歪比巴卜加密算法</h1>
+    <a href="https://github.com/geoi6sam1/WaiBiBaBo" target="_blank" class="btn btn-link text-secondary">
+      <i class="fab fa-github fa-lg"></i>
+    </a>
+  </header>
+
+  <!-- 明文输入框 -->
+  <div class="input-group">
+    <label>明文：</label>
+    <textarea id="text" placeholder="请输入要加密的文本..." rows="8"></textarea>
+    <button class="copy-btn" id="copy-text">复制</button>
+  </div>
+
+  <!-- 加密和解密按钮 -->
+  <div class="btn-group">
+    <button id="btn-encode" class="btn btn-primary">
+      <i class="fas fa-lock"></i> 加密
+    </button>
+    <button id="btn-decode" class="btn btn-primary">
+      <i class="fas fa-unlock"></i> 解密
+    </button>
+  </div>
+
+  <!-- 密文输入框 -->
+  <div class="input-group">
+    <label>密文：</label>
+    <textarea id="waibi" placeholder="请输入要解密的文本..." rows="8"></textarea>
+    <button class="copy-btn" id="copy-waibi">复制</button>
+  </div>
+
+  <!-- 触发算法说明的按钮 -->
+  <button id="show-spec-btn" class="btn btn-primary">查看算法说明</button>
+
+  <!-- 弹窗结构 -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>算法说明</h2>
+        <span class="close">&times;</span>
       </div>
-      <div class="links">
-        <a href="https://github.com/geoi6sam1/WaiBiBaBo" target="_blank"><i class="fab fa-github"></i></a>
-      </div>
-    </header>
-    <div class="content">
-      <div class="form-group input">
-        <label for="text"><strong>明文：</strong></label>
-        <textarea id="text" class="form-control" placeholder="请在此处输入明文" rows="10"></textarea>
-      </div>
-      <div class="form-group control">
-        <button id="btn-encode" class="btn btn-primary">加密👉</button>
-        <button id="btn-decode" class="btn btn-primary">👈解密</button>
-      </div>
-      <div class="form-group input">
-        <label for="waibi"><strong>密文：</strong></label>
-        <textarea id="waibi" class="form-control" placeholder="请在此处输入密文" rows="10"></textarea>
+      <div class="modal-body">
+        <p>所有字符使用 UTF-8 编码，每个字节由四个汉字表示。</p>
+        <ul>
+          <li>00 → 歪</li>
+          <li>01 → 比</li>
+          <li>10 → 巴</li>
+          <li>11 → 卜</li>
+        </ul>
       </div>
     </div>
   </div>
-  <div class="page spec">
-    <article class="markdown-body">
-      <h1 style="color: #c33; text-align: center">规格说明</h1>
-      <p>所有字符使用 <b>UTF-8</b> 编码。</p>
-      <p>一个字节用 <b>四个字</b> 表示（“歪比巴卜”四个字）。</p>
-      <p>例子：</p>
-      <p>小写英文字母“a”，编码后对应的十六进制是<code>0x61</code>。</p>
-      <p>二进制表示如下：</p>
-      <p><code>01100001</code></p>
-      <p>每两位bit为一组，分割如下：</p>
-      <p><code>01</code> <code>10</code> <code>00</code> <code>01</code></p>
-      <p>按照下面的转换表即可获得对应密文：</p>
-      <table>
-        <thead><th>二进制</th><th>密文</th></thead>
-        <tbody>
-          <tr><td>0b00</td><td>歪</td></tr>
-          <tr><td>0b01</td><td>比</td></tr>
-          <tr><td>0b10</td><td>巴</td></tr>
-          <tr><td>0b11</td><td>卜</td></tr>
-        </tbody>
-      </table>
-      <p>对应密文：<code>比巴歪比</code></p>
-    </article>
-  </div>
-  <br>
-  <div class="copyright">
-    <span>本算法由 <a href="/">某位大神</a> 编写<br>
-    （本站非原创仅作为备份保留）</span>
-  </div>
 </div>
+
+<!-- 引入 JavaScript -->
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="script.js"></script>
+
 </body>
 </html>
